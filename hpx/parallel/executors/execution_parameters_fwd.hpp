@@ -37,22 +37,22 @@ namespace hpx { namespace parallel { namespace execution
     namespace detail
     {
         /// \cond NOINTERNAL
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct get_chunk_size_fn_helper;
 
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct maximal_number_of_chunks_fn_helper;
 
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct reset_thread_distribution_fn_helper;
 
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct count_processing_units_fn_helper;
 
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct mark_begin_execution_fn_helper;
 
-        template <typename Parameters, typename Executor, typename Enable = void>
+        template <typename Executor, typename Enable = void>
         struct mark_end_execution_fn_helper;
         /// \endcond
     }
@@ -67,12 +67,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto get_chunk_size(Parameters&& params,
             Executor&& exec, F&& f, std::size_t cores, std::size_t num_tasks)
         ->  typename get_chunk_size_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor, F>::type
         {
             return get_chunk_size_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(std::forward<Parameters>(params),
                     std::forward<Executor>(exec), std::forward<F>(f), cores,
@@ -103,12 +101,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto maximal_number_of_chunks(Parameters&& params,
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
         ->  typename maximal_number_of_chunks_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor>::type
         {
             return maximal_number_of_chunks_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(std::forward<Parameters>(params),
                     std::forward<Executor>(exec), cores, num_tasks);
@@ -138,12 +134,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto
         reset_thread_distribution(Parameters&& params, Executor&& exec)
         ->  typename reset_thread_distribution_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor>::type
         {
             return reset_thread_distribution_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(std::forward<Parameters>(params),
                         std::forward<Executor>(exec));
@@ -172,12 +166,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto
         count_processing_units(Parameters&& params, Executor&& exec)
         ->  typename count_processing_units_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor>::type
         {
             return count_processing_units_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(
                     std::forward<Parameters>(params),
@@ -207,12 +199,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto mark_begin_execution(Parameters&& params,
                 Executor&& exec)
         ->  typename mark_begin_execution_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor>::type
         {
             return mark_begin_execution_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(std::forward<Parameters>(params),
                     std::forward<Executor>(exec));
@@ -239,12 +229,10 @@ namespace hpx { namespace parallel { namespace execution
         HPX_FORCEINLINE auto mark_end_execution(Parameters&& params,
                 Executor&& exec)
         ->  typename mark_end_execution_fn_helper<
-                typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type
             >::template result<Parameters, Executor>::type
         {
             return mark_end_execution_fn_helper<
-                    typename hpx::util::decay_unwrap<Parameters>::type,
                     typename hpx::util::decay<Executor>::type
                 >::call(std::forward<Parameters>(params),
                     std::forward<Executor>(exec));
