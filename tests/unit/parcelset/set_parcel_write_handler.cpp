@@ -83,8 +83,5 @@ int main()
         HPX_TEST_EQ(write_handler_called, std::size_t(0));
     }
 
-    HPX_TEST(f2.target<hpx::parcel_write_handler_type>() ==
-        wh.target<hpx::parcel_write_handler_type>());
-
     return hpx::util::report_errors();
 }

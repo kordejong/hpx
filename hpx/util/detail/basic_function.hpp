@@ -23,7 +23,6 @@
 #include <cstring>
 #include <string>
 #include <type_traits>
-#include <typeinfo>
 #include <utility>
 
 namespace hpx { namespace util { namespace detail
@@ -152,43 +151,6 @@ namespace hpx { namespace util { namespace detail
         explicit operator bool() const noexcept
         {
             return !empty();
-        }
-
-        std::type_info const& target_type() const noexcept
-        {
-            return empty() ? typeid(void) : vptr->get_type();
-        }
-
-        template <typename T>
-        T* target() noexcept
-        {
-            typedef typename std::remove_cv<T>::type target_type;
-
-            static_assert(
-                traits::is_invocable_r<R, target_type&, Ts...>::value
-              , "T shall be Callable with the function signature");
-
-            VTable const* f_vptr = get_vtable<target_type>();
-            if (vptr != f_vptr || empty())
-                return nullptr;
-
-            return &vtable::get<target_type>(object);
-        }
-
-        template <typename T>
-        T const* target() const noexcept
-        {
-            typedef typename std::remove_cv<T>::type target_type;
-
-            static_assert(
-                traits::is_invocable_r<R, target_type&, Ts...>::value
-              , "T shall be Callable with the function signature");
-
-            VTable const* f_vptr = get_vtable<target_type>();
-            if (vptr != f_vptr || empty())
-                return nullptr;
-
-            return &vtable::get<target_type>(object);
         }
 
         HPX_FORCEINLINE R operator()(Ts... vs) const

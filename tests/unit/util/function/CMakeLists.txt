@@ -5,11 +5,9 @@
 
 set(tests
     function_bind_test
-    contains_test
     function_arith
     function_args
     function_ref
-    function_target
     function_test
     nothrow_swap
     stateless_test
