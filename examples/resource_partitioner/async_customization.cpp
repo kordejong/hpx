@@ -29,7 +29,7 @@
 #include "shared_priority_queue_scheduler.hpp"
 //
 #include <cstddef>
-#include <cstddef>
+#include <cstdint>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -382,11 +382,11 @@ int test(Executor &exec)
     // test 3b
     std::cout << "============================" << std::endl;
     std::cout << "Test 3b : when_all(shared)" << std::endl;
-    future<uint64_t>     fws1 = make_ready_future(uint64_t(42));
+    future<std::uint64_t>     fws1 = make_ready_future(std::uint64_t(42));
     shared_future<float> fws2 = make_ready_future(3.1415f).share();
     //
     auto fws = when_all(fws1, fws2).then(exec,
-        [](future<util::tuple<future<uint64_t>, shared_future<float>>> && f)
+        [](future<util::tuple<future<std::uint64_t>, shared_future<float>>> && f)
         {
             auto tup = f.get();
             auto cmplx = std::complex<double>(
@@ -407,7 +407,7 @@ int test(Executor &exec)
     auto fd = dataflow(exec,
         [](future<uint16_t> && f1, future<double> && f2)
         {
-            auto cmplx = std::complex<uint64_t>(f1.get(), f2.get());
+            auto cmplx = std::complex<std::uint64_t>(f1.get(), f2.get());
             std::cout << "Inside dataflow : " << cmplx << std::endl;
             return cmplx;
         }
@@ -425,7 +425,7 @@ int test(Executor &exec)
     auto fds = dataflow(exec,
         [](future<uint16_t> && f1, shared_future<double> && f2)
         {
-            auto cmplx = std::complex<uint64_t>(f1.get(), f2.get());
+            auto cmplx = std::complex<std::uint64_t>(f1.get(), f2.get());
             std::cout << "Inside dataflow(shared) : " << cmplx << std::endl;
             return cmplx;
         }
@@ -460,7 +460,7 @@ namespace hpx { namespace threads { namespace executors
       int operator()(const util::tuple<future<int>, future<double>> &) const {
           return 0;
       }
-      int operator()(const util::tuple<future<long unsigned int>,
+      int operator()(const util::tuple<future<std::uint64_t>,
                      shared_future<float>> &) const
       {
           return 0;
